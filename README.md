@@ -1,124 +1,162 @@
-🔐 Secure Image Vault
+# Advanced Image Vault
 
-Secure Image Vault is a lightweight desktop application built with Python that allows users to encrypt and decrypt files securely using a simple drag-and-drop interface.
+A secure desktop application for encrypting and decrypting files using strong cryptographic standards.
+Advanced Image Vault allows users to protect sensitive files with password-based encryption through a simple drag-and-drop interface.
 
-The application implements AES-256 encryption, PBKDF2 key derivation, and HMAC-SHA256 authentication to ensure that files remain private and protected from tampering.
+The application is designed with security, simplicity, and usability in mind. Users can lock files with a password, unlock them when needed, and protect access with a master password system.
 
-Overview
+---
 
-Secure Image Vault is designed for users who want a simple way to protect sensitive files locally without relying on cloud services.
-Files can be locked (encrypted) and unlocked (decrypted) using a password.
+## Overview
 
-The application also includes master password authentication and brute-force protection to enhance security.
+Advanced Image Vault is a Python-based GUI application built with Tkinter that provides a secure way to encrypt and decrypt files locally. The application uses modern cryptographic techniques including AES encryption, PBKDF2 key derivation, and HMAC verification to ensure data integrity and confidentiality.
 
-Key Features
+Files can be locked or unlocked simply by dragging them into the application window and choosing the desired action.
 
-AES-256 file encryption
+---
 
-Password-based key derivation (PBKDF2)
+## Features
 
-File integrity verification using HMAC-SHA256
+• AES-256 encryption for strong file protection
+• Password-based encryption using PBKDF2 key derivation
+• HMAC verification to detect tampering or corruption
+• Master password authentication for application access
+• Drag-and-drop file interface
+• Protection against brute force attempts with lockout system
+• Automatic detection of locked files
+• Clean and minimal graphical user interface
+• Local encryption with no internet dependency
 
-Drag-and-drop file interface
+---
 
-Master password protection
+## Security Design
 
-Brute-force attack protection
+### AES Encryption
 
-Automatic detection of locked files
+Files are encrypted using AES in CBC mode with a 256-bit key.
 
-Minimal and lightweight desktop UI
+### Key Derivation
 
-Encryption Details
-Component	Implementation
-Encryption Algorithm	AES-256
-Mode	CBC (Cipher Block Chaining)
-Key Derivation	PBKDF2
-Iterations	100,000
-Authentication	HMAC-SHA256
-Salt Size	16 bytes
-Block Size	AES default
-Key Length	32 bytes
-Security Mechanisms
-Feature	Description
-Master Password	Required to access the application
-File Password	Each file can be encrypted with its own password
-HMAC Verification	Prevents file tampering
-Attempt Limiting	Maximum 5 failed attempts
-Lockout System	30-second lockout after repeated failures
-Encrypted File Structure
+Passwords are converted into encryption keys using PBKDF2 with 100,000 iterations and a random salt.
 
-Encrypted files are stored in the following format:
+### HMAC Integrity Check
 
-LOCKED | SALT | IV | HMAC | CIPHERTEXT
-Field	Purpose
-LOCKED	Identifier marking the file as encrypted
-SALT	Used for secure key derivation
-IV	Initialization vector for AES
-HMAC	Ensures file integrity
-CIPHERTEXT	The encrypted file content
-Installation
-1. Clone the repository
-git clone https://github.com/yourusername/secure-image-vault.git
-cd secure-image-vault
-2. Install dependencies
+An HMAC-SHA256 authentication tag ensures that encrypted data has not been modified.
+
+### Lockout Protection
+
+After multiple failed password attempts, the application temporarily locks access to the file to prevent brute-force attacks.
+
+### Master Password
+
+The application requires a master password before access is granted. The password is stored as a SHA-256 hash.
+
+---
+
+## File Structure After Encryption
+
+Encrypted files follow this structure:
+
+```
+[LOCKED HEADER]
+[SALT]
+[IV]
+[HMAC TAG]
+[CIPHERTEXT]
+```
+
+This format ensures that all required information for decryption is securely stored inside the file.
+
+---
+
+## Requirements
+
+Python 3.8 or later
+
+Required libraries:
+
+```
+tkinter
+tkinterdnd2
+pycryptodome
+```
+
+Install dependencies using:
+
+```
 pip install tkinterdnd2 pycryptodome
-Running the Application
+```
+
+---
+
+## How to Run
+
+1. Clone or download this repository.
+2. Install the required dependencies.
+3. Run the application:
+
+```
 python main.py
-First Launch
+```
 
-When the application runs for the first time, you will be prompted to create a master password.
+On first launch, you will be asked to create a master password.
 
-Usage
+---
 
-Launch the application.
+## Usage
 
-Drag a file into the Drag & Drop area.
+### Locking a File
 
-Choose one of the following actions:
+1. Drag and drop a file into the application.
+2. Select "Lock".
+3. Enter a password.
+4. The file will be encrypted and marked as locked.
 
-Lock – Encrypt the file with a password.
+### Unlocking a File
 
-Unlock – Decrypt the file using the correct password.
+1. Drag the encrypted file into the application.
+2. Select "Unlock".
+3. Enter the correct password.
+4. The file will be decrypted and restored.
 
-The file will be updated automatically.
+---
 
-Project Structure
-secure-image-vault/
+## Security Notes
+
+• If the password is lost, the encrypted file cannot be recovered.
+• Do not modify encrypted files manually.
+• The application performs encryption locally and does not transmit any data.
+
+---
+
+## Project Structure
+
+```
+project-folder/
 │
 ├── main.py
 ├── master.lock
 └── README.md
-File	Description
-main.py	Main application script
-master.lock	Stores the hashed master password
-README.md	Project documentation
-Requirements
-Requirement	Version
-Python	3.8+
-tkinter	Built-in
-tkinterdnd2	Latest
-pycryptodome	Latest
-Important Notes
+```
 
-Losing the file password means the encrypted file cannot be recovered.
+---
 
-Losing the master password will prevent access to the application.
+## Future Improvements
 
-The program modifies files directly, so keeping backups is recommended for important files.
+• Support for folder encryption
+• Secure file preview mode
+• Automatic backup of encrypted files
+• Cross-platform executable builds
+• Improved file management interface
 
-Future Improvements
+---
 
-Batch file encryption
+## License
 
-File preview before encryption
+This project is intended for educational and personal use. You may modify and extend it as needed.
 
-Standalone executable build
+---
 
-Theme customization
+## Author
 
-Multi-file drag and drop processing
-
-License
-
-This project is released under the MIT License.
+Developed as a Python security project demonstrating practical encryption and secure file handling techniques.
