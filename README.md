@@ -1,116 +1,124 @@
-Secure Image Vault
+🔐 Secure Image Vault
 
-A lightweight desktop tool for locking and unlocking files with strong encryption.
-Built with Python and Tkinter, it allows you to drag and drop files and protect them with a password.
+Secure Image Vault is a lightweight desktop application built with Python that allows users to encrypt and decrypt files securely using a simple drag-and-drop interface.
 
-The application uses AES encryption with HMAC verification to ensure files remain private and tamper-proof.
+The application implements AES-256 encryption, PBKDF2 key derivation, and HMAC-SHA256 authentication to ensure that files remain private and protected from tampering.
 
-Features
+Overview
 
-AES-256 Encryption
+Secure Image Vault is designed for users who want a simple way to protect sensitive files locally without relying on cloud services.
+Files can be locked (encrypted) and unlocked (decrypted) using a password.
+
+The application also includes master password authentication and brute-force protection to enhance security.
+
+Key Features
+
+AES-256 file encryption
 
 Password-based key derivation (PBKDF2)
 
-Integrity protection using HMAC-SHA256
+File integrity verification using HMAC-SHA256
 
-Drag & drop file interface
+Drag-and-drop file interface
 
 Master password protection
 
-Protection against brute-force attempts
+Brute-force attack protection
 
-Simple GUI built with Tkinter
+Automatic detection of locked files
 
-File lock status detection
+Minimal and lightweight desktop UI
 
-How It Works
+Encryption Details
+Component	Implementation
+Encryption Algorithm	AES-256
+Mode	CBC (Cipher Block Chaining)
+Key Derivation	PBKDF2
+Iterations	100,000
+Authentication	HMAC-SHA256
+Salt Size	16 bytes
+Block Size	AES default
+Key Length	32 bytes
+Security Mechanisms
+Feature	Description
+Master Password	Required to access the application
+File Password	Each file can be encrypted with its own password
+HMAC Verification	Prevents file tampering
+Attempt Limiting	Maximum 5 failed attempts
+Lockout System	30-second lockout after repeated failures
+Encrypted File Structure
 
-On first launch, the program asks you to create a master password.
+Encrypted files are stored in the following format:
 
-Drag a file into the application window.
-
-Choose whether to:
-
-Lock the file (encrypt it)
-
-Unlock the file (decrypt it)
-
-Locked files are marked internally and cannot be decrypted without the correct password.
-
-The application stores encrypted data in this format:
-
-LOCKED + SALT + IV + HMAC + CIPHERTEXT
-
-This ensures both confidentiality and integrity.
-
-Security Details
-
-Encryption: AES-256 (CBC mode)
-
-Key Derivation: PBKDF2
-
-Iterations: 100,000
-
-Authentication: HMAC-SHA256
-
-Salt Size: 16 bytes
-
-Brute Force Protection:
-
-Maximum 5 attempts
-
-30 second lockout after exceeding attempts
-
-Requirements
-
-Python 3.8+
-
-Required libraries:
-
-tkinter
-tkinterdnd2
-pycryptodome
-
-Install dependencies:
-
+LOCKED | SALT | IV | HMAC | CIPHERTEXT
+Field	Purpose
+LOCKED	Identifier marking the file as encrypted
+SALT	Used for secure key derivation
+IV	Initialization vector for AES
+HMAC	Ensures file integrity
+CIPHERTEXT	The encrypted file content
+Installation
+1. Clone the repository
+git clone https://github.com/yourusername/secure-image-vault.git
+cd secure-image-vault
+2. Install dependencies
 pip install tkinterdnd2 pycryptodome
 Running the Application
 python main.py
+First Launch
 
-When the app starts:
+When the application runs for the first time, you will be prompted to create a master password.
 
-Set your master password
+Usage
 
-Drag files into the window
+Launch the application.
 
-Select Lock or Unlock
+Drag a file into the Drag & Drop area.
 
-Important Notes
+Choose one of the following actions:
 
-If you lose the file password, the file cannot be recovered.
+Lock – Encrypt the file with a password.
 
-If you lose the master password, the application will not allow access.
+Unlock – Decrypt the file using the correct password.
 
-The program modifies the file directly, so backups are recommended for sensitive data.
+The file will be updated automatically.
 
 Project Structure
-project/
+secure-image-vault/
 │
 ├── main.py
 ├── master.lock
 └── README.md
-Possible Improvements
+File	Description
+main.py	Main application script
+master.lock	Stores the hashed master password
+README.md	Project documentation
+Requirements
+Requirement	Version
+Python	3.8+
+tkinter	Built-in
+tkinterdnd2	Latest
+pycryptodome	Latest
+Important Notes
 
-File type filtering
+Losing the file password means the encrypted file cannot be recovered.
 
-Batch encryption
+Losing the master password will prevent access to the application.
 
-Progress indicator
+The program modifies files directly, so keeping backups is recommended for important files.
 
-Dark/light theme toggle
+Future Improvements
 
-Packaging as a standalone executable
+Batch file encryption
+
+File preview before encryption
+
+Standalone executable build
+
+Theme customization
+
+Multi-file drag and drop processing
 
 License
 
-MIT License
+This project is released under the MIT License.
